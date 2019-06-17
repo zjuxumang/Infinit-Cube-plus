@@ -15,6 +15,24 @@ uint32_t CubeI2C::I2CRead(uint8_t reg_address, uint8_t* temp) {
       return 1;
   return 0;
 }
+uint32_t CubeI2C::I2CRead(uint8_t reg_address, uint8_t* temp, uint8_t size) {
+  int result;
+  result = i2c_port_->write((uint8_t)Addr<<1, (const char *)&reg_address, 1);
+  if (result !=0)
+      return 1;
+  result = i2c_port_->read((uint8_t)Addr<<1, (char *)temp, size);
+  if (result !=0)
+      return 1;
+  return 0;
+}
+
+uint32_t CubeI2C::I2CRead(uint8_t* temp, uint8_t size) {
+  int result;
+  result = i2c_port_->read((uint8_t)Addr<<1, (char *)temp, size);
+  if (result !=0)
+      return 1;
+  return 0;
+}
 
 uint32_t CubeI2C::I2CRead2Byte(uint8_t reg_address, uint8_t* temp) {
   int result;

@@ -1,5 +1,6 @@
 //% color="#359eff" weight=20 icon="\uf1b2"
 namespace Cube {
+    let BUS_SERVO_ENABLE=false;
     export enum GPIO_ID{
         D0,
         A0,
@@ -66,6 +67,18 @@ namespace Cube {
         //% block="刹车"
         Brake=0
     }
+    export enum Move_base_dir{
+        //% block="前进"
+        Forward=1,
+        //% block="后退"
+        Backward=2,
+        //% block="左转"
+        Turn_left=3,
+        //% block="右转"
+        Turn_right=4,
+        //% block="刹车"
+        Brake=0
+    }
     export enum IMU_AXIS{
         Yaw,
         Roll,
@@ -86,6 +99,11 @@ namespace Cube {
     export function Set_Pin_Value(id:GPIO_ID,level:Pin_Level){
         return
     }
+    //% block="模拟输出 引脚%id 设为%pwm"
+    //% shim=Cube::Set_Pin_PWM
+    export function Set_Pin_PWM(id:GPIO_ID,pwm:number){
+        return
+    }
     //% block="数字读取 引脚%id"
     //% shim=Cube::Get_Pin_Value
     export function Get_Pin_Value(id:GPIO_ID){
@@ -97,6 +115,7 @@ namespace Cube {
         return 0
     }
     //% block="初始化%port|为%sensor"
+    //% shim=Cube::Init_Port
     export function init_port(id:PORT_ID,sensor:Sensor_ID){
         return
     }
@@ -110,6 +129,73 @@ namespace Cube {
     export function Get_Imu(dir:IMU_AXIS){
         return 0
     }
+    //% block="总线舵机控制|ID %ID|角度 %value|时间 %time ms"
+    //% time.defl=500 time.min=0
+    //% value.min=0 value.max=180
+    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=4
+    //% advanced=true
+    export function bus_Servo(ID: number, value: number, time: number): void {
+        if(!BUS_SERVO_ENABLE){
+            serial.redirect(SerialPin.P8,SerialPin.P12,115200);
+            BUS_SERVO_ENABLE=true;
+        }
+        serial.writeString("#");
+        if(ID<10)
+            serial.writeString("00");
+        else if(ID<100)
+            serial.writeString("0");
+        serial.writeNumber(ID);
+        serial.writeString("P");
+        let pwm=Math.map(value,0,180,500,2500);
+        pwm=Math.round(pwm);
+        if(pwm<1000){
+            serial.writeString("0");
+        }
+        serial.writeNumber(pwm);
+        serial.writeString("T");
+        if(time<1000){
+            serial.writeString("0");
+        }
+        serial.writeNumber(time);
+        serial.writeString("!");
+    }
+    //% block="初始化底盘 左马达%left|右马达%right"
+    //% shim=Cube::Set_move_base group="底盘控制"
+    export function Set_move_base(left:Motor_ID,right:Motor_ID){
+        return
+    }
+    //% block="底盘控制 %dir| 速度%speed"
+    //% shim=Cube::move_base group="底盘控制"
+    export function move_base(dir:Move_base_dir, speed:number){
+        return
+    }
+    //% block="设置 左马达%left| 右马达%right 速度（±255）"
+    //% left.min=-255 left.max=255 right.min=-255 right.max=255
+    //% shim=Cube::move_motor group="底盘控制"
+    export function move(left:number, right:number){
+        return
+    }
+
+    //% block="获取测距传感器数据 编号%begin|至%end"
+    export function Get_VL53L0X(begin:number,end:number){
+        let data=[0]
+        _update_vl53l0x(begin,end);
+        for (let index = 0; index < end-begin+1; index++) {
+            data.push(_get_vl53l0x(index))
+        }
+        data.shift()
+        return data
+    }
+    
+    //% shim=Cube::Update_VL53L0X
+    export function _update_vl53l0x(begin:number,end:number){
+        return
+    }
+    //% shim=Cube::Get_VL53L0X
+    export function _get_vl53l0x(index:number){
+        return 0
+    }
+
     //% shim=Cube::test
     export function test(){
         return 0
