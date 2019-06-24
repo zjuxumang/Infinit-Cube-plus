@@ -79,6 +79,22 @@ namespace Cube {
         //% block="刹车"
         Brake=0
     }
+    export enum VISION_TYPE {
+        //% block="🌈 颜色检测"
+        VISION_COLOR_DETECT=1,
+        //% block="🌈 颜色识别"
+        VISION_COLOR_RECOGNITION=2,
+        //% block="⚽ 球体检测"
+        VISION_BALL_DETECT=3,
+        //% block="👥 人体检测"
+        VISION_BODY_DETECT=5,
+        //% block="🔳 形状卡片"
+        VISION_SHAPE_CARD_DETECT=6,
+        //% block="🔳 交通卡片"
+        VISION_TRAFFIC_CARD_DETECT=7,
+        //% block="🔳 数字卡片"
+        VISION_NUM_CARD_DETECT=8
+    }
     export enum IMU_AXIS{
         Yaw,
         Roll,
@@ -187,6 +203,12 @@ namespace Cube {
         return data
     }
     
+    //% block="启动MuVisionSensor 算法%algorithm"
+    //% shim=Cube::Mu_begin
+    export function Mu_beign(algorithm:VISION_TYPE){
+        return 
+    }
+
     //% shim=Cube::Update_VL53L0X
     export function _update_vl53l0x(begin:number,end:number){
         return
