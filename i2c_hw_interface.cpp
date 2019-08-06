@@ -50,6 +50,7 @@ uint32_t CubeI2C::I2CWrite(uint8_t reg_address, uint8_t value) {
   ret = i2c_port_->write((uint8_t)Addr<<1, (const char *)&reg_address, 1);
   if (ret !=0)
       return 1;
+  wait_ms(10);
   ret = i2c_port_->write((uint8_t)Addr<<1, (const char *)&value, 1);
   if (ret !=0)
       return 1;
