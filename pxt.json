@@ -1,6 +1,6 @@
 {
     "name": "Cube",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "library for Infinite Cube #beta",
     "dependencies": {
         "core": "*",
