@@ -119,7 +119,7 @@ namespace Cube {
     export function init_port(id:PORT_ID,sensor:Sensor_ID){
         return
     }
-    //% block="设置电机%id|模式%dir|功率%pwm"
+    //% block="设置马达%id|模式%dir|功率%pwm"
     //% shim=Cube::Motor pwm.defl=0 pwm.min=0 pwm.max=255
     export function Motor(id:Motor_ID,dir:Motor_Dir,pwm:number){
         return
@@ -177,6 +177,7 @@ namespace Cube {
     }
 
     //% block="获取测距传感器数据 编号%begin|至%end"
+    //% advanced=true
     export function Get_VL53L0X(begin:number,end:number){
         let data=[0]
         _update_vl53l0x(begin,end);

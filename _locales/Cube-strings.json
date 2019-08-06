@@ -7,7 +7,7 @@
   "Cube.Motor_Dir.Backward|block": "反转",
   "Cube.Motor_Dir.Brake|block": "刹车",
   "Cube.Motor_Dir.Forward|block": "正转",
-  "Cube.Motor|block": "设置电机%id|模式%dir|功率%pwm",
+  "Cube.Motor|block": "设置马达%id|模式%dir|功率%pwm",
   "Cube.Move_base_dir.Backward|block": "后退",
   "Cube.Move_base_dir.Brake|block": "刹车",
   "Cube.Move_base_dir.Forward|block": "前进",

@@ -35,8 +35,9 @@ namespace Cube {
             {
                 uBit.display.scroll("init error");
                 uBit.reset();
-            }    
-        }    
+            }
+            wait_ms(10);
+        }
         // while(i2c->I2CRead(0x02,&temp)==0);
         // i2c->I2CWrite(0x03,1);
     }
