@@ -51,7 +51,7 @@ namespace Cube {
         i2c->I2CWrite(0x38+id,dir);
         wait_ms(50);
         if(pwm>=0&&pwm<=255)
-            i2c->I2CWrite(0x34+id,pwm/3);
+            i2c->I2CWrite(0x34+id,pwm);
         wait_ms(20);
     }
     //%
