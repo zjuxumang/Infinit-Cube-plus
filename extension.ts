@@ -87,6 +87,10 @@ namespace Cube {
     //% shim=Cube::Init
     //% block="复位编程盒" advanced=true
     export function Init() {
+        Motor(0,0,0)
+        Motor(1,0,0)
+        Motor(2,0,0)
+        Motor(3,0,0)
         return
     }
     //% block="设置引脚模式%id|%mode"
