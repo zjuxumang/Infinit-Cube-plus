@@ -40,6 +40,7 @@ uint32_t CubeI2C::I2CRead2Byte(uint8_t reg_address, uint8_t* temp) {
   int result;
   uint8_t data_buf[4]={0};
   data_buf[0]=0;//read
+  data_buf[1]=reg_address;
   result = i2c_port_->write((uint8_t)Addr<<1, (const char *)&data_buf, 4);
   if (result !=0)
       return 1;

@@ -2,14 +2,32 @@
 namespace Cube {
     let BUS_SERVO_ENABLE=false;
     export enum GPIO_ID{
-        D0,
         A0,
-        D1,
         A1,
-        D2,
-        A2,
-        D3,
-        A3
+        B0,
+        B1,
+        C0,
+        C1,
+        D0,
+        D1,
+        E0,
+        E1,
+        F0,
+        F1,
+        G0,
+        G1,
+        H0,
+        H1
+    }
+    export enum Analog_Pins{
+        A0,
+        A1,
+        B0,
+        B1,
+        C0,
+        C1,
+        D0,
+        D1
     }
     export enum PORT_ID{
         //% block="端口A"
@@ -131,7 +149,7 @@ namespace Cube {
     }
     //% block="模拟读取 引脚%id"
     //% shim=Cube::Get_ADC_Value
-    export function Get_ADC_Value(id:GPIO_ID){
+    export function Get_ADC_Value(id:Analog_Pins){
         return 0
     }
     //% block="初始化%port|为%sensor"
