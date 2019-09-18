@@ -20,6 +20,7 @@ typedef union{
 	uint8_t Port_reg_value;
 }Device_Reg;
 
+
 namespace Cube {
     CubeI2C* i2c=new CubeI2C(&uBit.i2c,0x70);
     uint8_t Left_wheel=255;
@@ -35,8 +36,9 @@ namespace Cube {
             {
                 uBit.display.scroll("init error");
                 uBit.reset();
-            }    
-        }    
+            }
+            wait_ms(10);
+        }
         // while(i2c->I2CRead(0x02,&temp)==0);
         // i2c->I2CWrite(0x03,1);
     }
@@ -49,7 +51,7 @@ namespace Cube {
     void Motor(int id,int dir,int pwm){        
         i2c->I2CWrite(0x38+id,dir);
         if(pwm>=0&&pwm<=255)
-            i2c->I2CWrite(0x34+id,pwm);
+            i2c->I2CWrite(0x34+id,pwm/3);
     }
     //%
     void Set_move_base(int left,int right){

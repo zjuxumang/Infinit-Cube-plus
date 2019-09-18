@@ -1,6 +1,6 @@
 {
     "name": "Cube",
-    "version": "0.0.1",
+    "version": "0.0.9",
     "description": "library for Infinite Cube #beta",
     "dependencies": {
         "core": "*",
@@ -20,9 +20,5 @@
         "test.ts"
     ],
     "public": false,
-    "license": "Apache 2.0",
-    "targetVersions": {
-        "target": "1.3.6"
-    },
-    "installedVersion": "embed:Cube"
+    "license": "Apache 2.0"
 }
