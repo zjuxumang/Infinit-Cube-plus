@@ -1,10 +1,6 @@
 pins.P16.digitalWrite(false);
-basic.pause(100);
+basic.pause(1);
 pins.P16.digitalWrite(true);
 basic.pause(10);
-// Cube.Init();
-Cube.Motor(Cube.Motor_ID.M1, Cube.Motor_Dir.Forward, 0)
-Cube.Motor(Cube.Motor_ID.M2, Cube.Motor_Dir.Forward, 0)
-Cube.Motor(Cube.Motor_ID.M3, Cube.Motor_Dir.Forward, 0)
-Cube.Motor(Cube.Motor_ID.M4, Cube.Motor_Dir.Forward, 0)
+Cube.Init();
 basic.showIcon(IconNames.Happy);

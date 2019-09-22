@@ -21,7 +21,7 @@ class CubeI2C{
     uint32_t I2CRead(uint8_t reg_address, uint8_t* temp, uint8_t size);
     uint32_t I2CRead(uint8_t* temp, uint8_t size);
     uint32_t I2CRead2Byte(uint8_t reg_address, uint8_t* temp);
-    uint32_t I2CWrite(uint8_t reg_address, uint8_t value);
+    uint32_t I2CWrite(uint8_t reg_address, uint8_t value1, uint8_t value2=0);
     CubeI2C(const CubeI2C&) = delete;
     CubeI2C& operator=(const CubeI2C &) = delete;
 

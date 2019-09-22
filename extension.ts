@@ -121,10 +121,6 @@ namespace Cube {
     //% shim=Cube::Init
     //% block="复位编程盒" advanced=true
     export function Init() {
-        Motor(0,0,0)
-        Motor(1,0,0)
-        Motor(2,0,0)
-        Motor(3,0,0)
         return
     }
     //% block="设置引脚模式%id|%mode"
@@ -167,6 +163,26 @@ namespace Cube {
     export function Get_Imu(dir:IMU_AXIS){
         return 0
     }
+    //% block="自动标定循线传感器"
+    //% shim=Cube::Init_sensor
+    export function Init_sensor(){
+        basic.pause(3000)
+        return 
+    }
+    //% block="循线到下一路口"
+    //% shim=Cube::follow_line
+    export function follow_line(){
+        return 
+    }    
+    /**
+     * 
+     * @param angle 旋转的角度，顺时针为正，逆时针为负
+     */
+    //% block="原地转向%angle°"
+    //% shim=Cube::turn_angle
+    export function turn_angle(angle: number){
+        return 
+    }    
     //% block="总线舵机控制|ID %ID|角度 %value|时间 %time ms"
     //% time.defl=500 time.min=0
     //% value.min=0 value.max=180
@@ -226,11 +242,11 @@ namespace Cube {
         return data
     }
     
-    //% block="启动MuVisionSensor 算法%algorithm"
-    //% shim=Cube::Mu_begin
-    export function Mu_beign(algorithm:VISION_TYPE){
-        return 
-    }
+    // //% block="启动MuVisionSensor 算法%algorithm"
+    // //% shim=Cube::Mu_begin
+    // export function Mu_beign(algorithm:VISION_TYPE){
+    //     return 
+    // }
 
     //% shim=Cube::Update_VL53L0X
     export function _update_vl53l0x(begin:number,end:number){

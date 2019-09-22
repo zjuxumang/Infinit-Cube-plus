@@ -26,6 +26,15 @@ namespace Cube {
     uint8_t Left_wheel=255;
     uint8_t Right_wheel=255;
     uint8_t data[16]={0};
+    void wait_for_cmd_finish(){
+        uint8_t is_finish;
+        while(1){
+            wait_ms(100);
+            i2c->I2CRead(0x80,&is_finish);
+            if(!is_finish)
+                break;
+        }
+    }
     //%
     void Init() {
         uint8_t temp;
@@ -49,9 +58,7 @@ namespace Cube {
     }
     //%
     void Motor(int id,int dir,int pwm){        
-        i2c->I2CWrite(0x38+id,dir);
-        if(pwm>=0&&pwm<=255)
-            i2c->I2CWrite(0x34+id,pwm/3);
+        i2c->I2CWrite(0x34+id,dir,pwm);
     }
     //%
     void Set_move_base(int left,int right){
@@ -96,12 +103,11 @@ namespace Cube {
     }
     //%
     int Get_Imu(int dir){
-        uint8_t data_h,data_l;
+        uint8_t data_buf[2];
         int16_t data=0;
-        i2c->I2CRead(0x10+dir*2,&data_h);
-        i2c->I2CRead(0x11+dir*2,&data_l);
-        data=data_h;
-        data=(data<<8)|data_l;
+        i2c->I2CRead2Byte(0x10+dir*2,data_buf);
+        data=data_buf[0];
+        data=(data<<8)|data_buf[1];
         return data/100;
     }
     //%
@@ -150,10 +156,16 @@ namespace Cube {
     int Get_ADC_Value(int id){
         uint8_t temp[2]={0};
         uint16_t adc=0;
-        i2c->I2CRead2Byte(0x15+(id+1)/2,temp);
-        adc|=(uint16_t)temp[1];
-        adc|=(uint16_t)(temp[0]<<8);
-        return adc;
+        uint8_t ret = i2c->I2CRead2Byte(0x16+id,temp);
+        if(ret==0)
+        {
+            adc|=(uint16_t)temp[1];
+            adc|=(uint16_t)(temp[0]<<8);
+            return adc; 
+        }
+        else
+            return ret;
+        
     }
     //%
     void Init_Port(int port_id,int sensor_id){
@@ -204,6 +216,24 @@ namespace Cube {
         uint16_t ret=data[index*2];
         ret=(ret<<8)|data[index*2+1];
         return ret;
+    }
+
+    //%
+    void Init_sensor(){
+        i2c->I2CWrite(0x50,0,0);
+        wait_for_cmd_finish();
+    }
+
+    //%
+    void follow_line(){
+        i2c->I2CWrite(0x51,0,0);
+        wait_for_cmd_finish();
+    }
+
+    //%
+    void turn_angle(int angle){
+        i2c->I2CWrite(0x52,angle);
+        wait_for_cmd_finish();
     }
 }
 

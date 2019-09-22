@@ -1,1 +1,3 @@
-{}
+{
+  "Cube.turn_angle": "* @param angle 旋转的角度，顺时针为正，逆时针为负"
+}
