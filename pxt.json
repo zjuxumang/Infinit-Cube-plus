@@ -3,8 +3,7 @@
     "version": "0.0.10",
     "description": "library for Infinite Cube #beta",
     "dependencies": {
-        "core": "*",
-        "radio": "*"
+        "core": "*"
     },
     "files": [
         "README.md",
