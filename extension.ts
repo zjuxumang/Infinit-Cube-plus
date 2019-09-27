@@ -97,26 +97,27 @@ namespace Cube {
         //% block="刹车"
         Brake=0
     }
-    export enum VISION_TYPE {
-        //% block="🌈 颜色检测"
-        VISION_COLOR_DETECT=1,
-        //% block="🌈 颜色识别"
-        VISION_COLOR_RECOGNITION=2,
-        //% block="⚽ 球体检测"
-        VISION_BALL_DETECT=3,
-        //% block="👥 人体检测"
-        VISION_BODY_DETECT=5,
-        //% block="🔳 形状卡片"
-        VISION_SHAPE_CARD_DETECT=6,
-        //% block="🔳 交通卡片"
-        VISION_TRAFFIC_CARD_DETECT=7,
-        //% block="🔳 数字卡片"
-        VISION_NUM_CARD_DETECT=8
-    }
+
     export enum IMU_AXIS{
         Yaw,
         Roll,
         Pitch
+    }
+
+    export enum End_TYPE{
+        //% block="十字路口"
+        Cross=1,
+        //% block="左转路口"
+        Left,
+        //% block="右转路口"
+        Right
+    }
+
+    export enum Sucker_Operation{
+        //% block="吸起"
+        Hold,
+        //% block="释放"
+        Release
     }
     //% shim=Cube::Init
     //% block="复位编程盒" advanced=true
@@ -159,30 +160,71 @@ namespace Cube {
         return
     }
     //% block="读取陀螺仪数据%dir"
-    //% shim=Cube::Get_Imu
+    //% shim=Cube::Get_Imu 
+    //% advanced=true
     export function Get_Imu(dir:IMU_AXIS){
         return 0
     }
     //% block="自动标定循线传感器"
-    //% shim=Cube::Init_sensor
+    //% shim=Cube::Init_sensor 
+    //% advanced=true
     export function Init_sensor(){
         basic.pause(3000)
         return 
     }
-    //% block="循线到下一路口"
-    //% shim=Cube::follow_line
-    export function follow_line(){
+    //% block="循线到%end_type||是否等待到达%mode"
+    //% shim=Cube::follow_line 
+    //% advanced=true
+    //% expandableArgumentMode="toggle"
+    //% mode.defl=true
+    export function follow_line(end_type:End_TYPE,mode?:boolean){
         return 
-    }    
+    }
+
+    //% block="循线完成"
+    //% shim=Cube::is_arrive_end
+    //% advanced=true
+    export function is_arrive_end():boolean{
+        return true
+    }
+    
+    /**
+     * 立即停止循线（仅在非等待模式下有效）
+     */
+    //% block="停止循线"
+    //% shim=Cube::break_follow
+    //% advanced=true
+    export function break_follow(){
+        return 
+    }
+
     /**
      * 
      * @param angle 旋转的角度，顺时针为正，逆时针为负
      */
     //% block="原地转向%angle°"
     //% shim=Cube::turn_angle
+    //% angle.defl=90
+    //% advanced=true
     export function turn_angle(angle: number){
         return 
     }    
+
+    //% block="前进距离%dist|mm"
+    //% shim=Cube::go_distance
+    //% dist.defl=200
+    //% advanced=true
+    export function go_distance(dist: number){
+        return 
+    }
+
+    //% block="%op目标物体"
+    //% shim=Cube::suck
+    //% advanced=true
+    export function suck(op:Sucker_Operation){
+        return 
+    }
+
     //% block="总线舵机控制|ID %ID|角度 %value|时间 %time ms"
     //% time.defl=500 time.min=0
     //% value.min=0 value.max=180
@@ -241,12 +283,6 @@ namespace Cube {
         data.shift()
         return data
     }
-    
-    // //% block="启动MuVisionSensor 算法%algorithm"
-    // //% shim=Cube::Mu_begin
-    // export function Mu_beign(algorithm:VISION_TYPE){
-    //     return 
-    // }
 
     //% shim=Cube::Update_VL53L0X
     export function _update_vl53l0x(begin:number,end:number){

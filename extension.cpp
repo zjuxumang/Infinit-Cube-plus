@@ -41,7 +41,7 @@ namespace Cube {
         uint8_t err_cnt=0;
         while(i2c->I2CRead(0x01,&temp)!=0)
         {
-            if(err_cnt++>10)
+            if(err_cnt++>20)
             {
                 uBit.display.scroll("init error");
                 uBit.reset();
@@ -225,15 +225,60 @@ namespace Cube {
     }
 
     //%
-    void follow_line(){
-        i2c->I2CWrite(0x51,0,0);
-        wait_for_cmd_finish();
+    void follow_line(int end_type){
+        i2c->I2CWrite(0x51,end_type,0);
+        if(end_type!=0)
+            wait_for_cmd_finish();
     }
 
     //%
     void turn_angle(int angle){
-        i2c->I2CWrite(0x52,angle);
+        i2c->I2CWrite(0x52,(uint8_t)(angle>>8),(uint8_t)(angle&0x00ff));
         wait_for_cmd_finish();
+    }
+
+    //%
+    void go_distance(int dist){
+        i2c->I2CWrite(0x53,(uint8_t)(dist>>8),(uint8_t)(dist&0x00ff));
+        wait_for_cmd_finish();
+    }
+
+    //%
+    void break_follow(){
+        i2c->I2CWrite(0x54,0,0);
+    }
+    void release(){
+        i2c->I2CWrite(0x56,0,0);
+        wait_ms(200);
+    }
+    //%
+    void suck(int op){
+        if(op==0)
+        {
+            int pitch0 = Get_Imu(2);
+            Motor(3,2,255);//吸盘下降
+            while(Get_Imu(2)==pitch0)
+            {
+                wait_ms(50);
+            }
+            Motor(3,0,255);
+            i2c->I2CWrite(0x55,0,0);
+            wait_ms(100);
+            Motor(3,1,255);
+            wait_ms(500);
+            Motor(3,0,0);
+        }    
+        else if(op==1)
+            release();
+    }
+
+    
+
+    //%
+    int is_arrive_end(){
+        uint8_t is_finish;
+        i2c->I2CRead(0x80,&is_finish);
+            return !is_finish;
     }
 }
 

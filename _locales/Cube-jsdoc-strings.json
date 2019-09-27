@@ -1,3 +1,4 @@
 {
+  "Cube.break_follow": "立即停止循线（仅在非等待模式下有效）",
   "Cube.turn_angle": "* @param angle 旋转的角度，顺时针为正，逆时针为负"
 }
