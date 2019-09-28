@@ -225,9 +225,9 @@ namespace Cube {
     }
 
     //%
-    void follow_line(int end_type){
+    void follow_line(int end_type,int is_wait){
         i2c->I2CWrite(0x51,end_type,0);
-        if(end_type!=0)
+        if(is_wait)
             wait_for_cmd_finish();
     }
 
