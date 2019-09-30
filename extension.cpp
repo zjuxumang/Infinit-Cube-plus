@@ -236,9 +236,17 @@ namespace Cube {
         i2c->I2CWrite(0x52,(uint8_t)(angle>>8),(uint8_t)(angle&0x00ff));
         wait_for_cmd_finish();
     }
+    
+    //%
+    void turn_to_angle(int angle){
+        i2c->I2CWrite(0x57,(uint8_t)(angle>>8),(uint8_t)(angle&0x00ff));
+        wait_for_cmd_finish();
+    }
 
     //%
-    void go_distance(int dist){
+    void go_distance(int dir, int dist){
+        if(dir==1)
+            dist=-dist;
         i2c->I2CWrite(0x53,(uint8_t)(dist>>8),(uint8_t)(dist&0x00ff));
         wait_for_cmd_finish();
     }

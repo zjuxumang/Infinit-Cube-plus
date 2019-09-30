@@ -119,6 +119,13 @@ namespace Cube {
         //% block="释放"
         Release
     }
+
+    export enum Go_Distance{
+        //% block="前进"
+        Forward,
+        //% block="后退"
+        Backward
+    }
     //% shim=Cube::Init
     //% block="复位编程盒" advanced=true
     export function Init() {
@@ -210,11 +217,23 @@ namespace Cube {
         return 
     }    
 
-    //% block="前进距离%dist|mm"
+    /**
+     * 
+    * @param angle 旋转到指定角度，以开机时车头正对的角度为0°，顺时针为正，设置范围为-180~180
+     */
+    //% block="原地转向到面向%angle°"
+    //% shim=Cube::turn_to_angle
+    //% angle.defl=90
+    //% advanced=true
+    export function turn_to_angle(angle: number){
+        return 
+    } 
+
+    //% block="%dir|距离%dist|mm"
     //% shim=Cube::go_distance
     //% dist.defl=200
     //% advanced=true
-    export function go_distance(dist: number){
+    export function go_distance(dir:Go_Distance, dist: number){
         return 
     }
 
