@@ -257,7 +257,8 @@ namespace Cube {
         {
             int pitch0 = Get_Imu(2);
             Motor(3,2,255);//吸盘下降
-            while(Get_Imu(2)==pitch0)
+            wait_ms(50);
+            while(Get_Imu(2)-pitch0>2||Get_Imu(2)-pitch0<-2)
             {
                 wait_ms(50);
             }
