@@ -126,6 +126,13 @@ namespace Cube {
         //% block="后退"
         Backward
     }
+
+    export enum Is_Wait{
+        //% block="是"
+        Blocking=1,
+        //% block="否"
+        NonBlocking=0
+    }
     //% shim=Cube::Init
     //% block="复位编程盒" advanced=true
     export function Init() {
@@ -183,8 +190,7 @@ namespace Cube {
     //% shim=Cube::follow_line 
     //% advanced=true
     //% expandableArgumentMode="toggle"
-    //% mode.defl=true
-    export function follow_line(end_type:End_TYPE,mode?:boolean){
+    export function follow_line(end_type:End_TYPE,mode?:Is_Wait){
         return 
     }
 
