@@ -102,6 +102,13 @@ namespace Cube {
         Motor(Right_wheel,right_dir,abs(right));
     }
     //%
+    void move_motor_close(int left,int right){
+        uint8_t left_dir=left>0?1:2;
+        uint8_t right_dir=right>0?1:2;
+        i2c->I2CWrite(0x58,(uint8_t)(left>>8),(uint8_t)(left&0x00ff));
+        i2c->I2CWrite(0x59,(uint8_t)(right>>8),(uint8_t)(right&0x00ff));
+    }
+    //%
     int Get_Imu(int dir){
         uint8_t data_buf[2];
         int16_t data=0;

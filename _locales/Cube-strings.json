@@ -51,6 +51,7 @@
   "Cube.init_port|block": "初始化%port|为%sensor",
   "Cube.is_arrive_end|block": "循线完成",
   "Cube.move_base|block": "底盘控制 %dir| 速度%speed",
+  "Cube.move_close|block": "设置 左轮%left| 右轮%right 速度mm/s（±800）",
   "Cube.move|block": "设置 左马达%left| 右马达%right 速度（±255）",
   "Cube.suck|block": "%op目标物体",
   "Cube.turn_angle|block": "原地转向%angle°",
