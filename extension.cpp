@@ -30,6 +30,7 @@ namespace Cube {
         uint8_t is_finish;
         while(1){
             wait_ms(100);
+            is_finish=1;
             i2c->I2CRead(0x80,&is_finish);
             if(!is_finish)
                 break;
