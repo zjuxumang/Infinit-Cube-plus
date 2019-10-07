@@ -27,13 +27,14 @@ namespace Cube {
     uint8_t Right_wheel=255;
     uint8_t data[16]={0};
     void wait_for_cmd_finish(){
-        uint8_t is_finish;
+        uint8_t is_finish=1;
         while(1){
             wait_ms(100);
-            is_finish=1;
-            i2c->I2CRead(0x80,&is_finish);
-            if(!is_finish)
-                break;
+            if(i2c->I2CRead(0x80,&is_finish)!=0)
+                continue;
+            else
+                if(!is_finish)
+                    break;
         }
     }
     //%
@@ -104,8 +105,6 @@ namespace Cube {
     }
     //%
     void move_motor_close(int left,int right){
-        uint8_t left_dir=left>0?1:2;
-        uint8_t right_dir=right>0?1:2;
         i2c->I2CWrite(0x58,(uint8_t)(left>>8),(uint8_t)(left&0x00ff));
         i2c->I2CWrite(0x59,(uint8_t)(right>>8),(uint8_t)(right&0x00ff));
     }
@@ -113,7 +112,8 @@ namespace Cube {
     int Get_Imu(int dir){
         uint8_t data_buf[2];
         int16_t data=0;
-        i2c->I2CRead2Byte(0x10+dir*2,data_buf);
+        if(i2c->I2CRead2Byte(0x10+dir*2,data_buf)!=0)
+            return 0xffee;
         data=data_buf[0];
         data=(data<<8)|data_buf[1];
         return data/100;
@@ -265,31 +265,35 @@ namespace Cube {
     }
     void release(){
         i2c->I2CWrite(0x56,0,0);
-        wait_ms(200);
+        wait_ms(300);
     }
     //%
     void suck(int op){
         if(op==0)
         {
             int pitch0 = Get_Imu(2);
+            while(pitch0==0xffee)
+            {
+                pitch0 = Get_Imu(2);
+                wait_ms(50);
+            }
             Motor(3,2,255);//吸盘下降
             wait_ms(50);
-            while(Get_Imu(2)-pitch0<2&&Get_Imu(2)-pitch0>-2)
+            while(Get_Imu(2)-pitch0>-2)
             {
                 wait_ms(50);
             }
             Motor(3,0,255);
+            wait_ms(50);
             i2c->I2CWrite(0x55,0,0);
-            wait_ms(100);
+            wait_ms(200);
             Motor(3,1,255);
-            wait_ms(500);
+            wait_ms(800);
             Motor(3,0,0);
         }    
         else if(op==1)
             release();
     }
-
-    
 
     //%
     int is_arrive_end(){

@@ -190,6 +190,7 @@ namespace Cube {
     //% shim=Cube::follow_line 
     //% advanced=true
     //% expandableArgumentMode="toggle"
+    //% mode.defl=1
     export function follow_line(end_type:End_TYPE,mode?:Is_Wait){
         return 
     }
@@ -299,7 +300,6 @@ namespace Cube {
     //% block="设置 左轮%left| 右轮%right 速度mm/s（±800）"
     //% left.min=-800 left.max=800 right.min=-800 right.max=800
     //% shim=Cube::move_motor_close group="底盘控制"
-    //% advanced=true
     export function move_close(left:number, right:number){
         return
     }
