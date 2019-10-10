@@ -105,12 +105,12 @@ namespace Cube {
     }
 
     export enum End_TYPE{
-        //% block="十字路口"
-        Cross=1,
         //% block="左转路口"
-        Left,
+        Left=2,
         //% block="右转路口"
-        Right
+        Right=3,
+        //% block="左转或右转路口"
+        Cross=1,
     }
 
     export enum Sucker_Operation{
@@ -181,14 +181,14 @@ namespace Cube {
     }
     //% block="自动标定循线传感器"
     //% shim=Cube::Init_sensor 
-    //% advanced=true
+    //% group="综合技能"
     export function Init_sensor(){
         basic.pause(3000)
         return 
     }
     //% block="循线到%end_type||是否等待到达%mode"
     //% shim=Cube::follow_line 
-    //% advanced=true
+    //% group="综合技能"
     //% expandableArgumentMode="toggle"
     //% mode.defl=1
     export function follow_line(end_type:End_TYPE,mode?:Is_Wait){
@@ -197,7 +197,7 @@ namespace Cube {
 
     //% block="循线完成"
     //% shim=Cube::is_arrive_end
-    //% advanced=true
+    //% group="综合技能"
     export function is_arrive_end():boolean{
         return true
     }
@@ -207,7 +207,7 @@ namespace Cube {
      */
     //% block="停止循线"
     //% shim=Cube::break_follow
-    //% advanced=true
+    //% group="综合技能"
     export function break_follow(){
         return 
     }
@@ -219,7 +219,7 @@ namespace Cube {
     //% block="原地转向%angle°"
     //% shim=Cube::turn_angle
     //% angle.defl=90
-    //% advanced=true
+    //% group="综合技能"
     export function turn_angle(angle: number){
         return 
     }    
@@ -231,7 +231,7 @@ namespace Cube {
     //% block="原地转向到面向%angle°"
     //% shim=Cube::turn_to_angle
     //% angle.defl=90
-    //% advanced=true
+    //% group="综合技能"
     export function turn_to_angle(angle: number){
         return 
     } 
@@ -239,14 +239,14 @@ namespace Cube {
     //% block="%dir|距离%dist|mm"
     //% shim=Cube::go_distance
     //% dist.defl=200
-    //% advanced=true
+    //% group="综合技能"
     export function go_distance(dir:Go_Distance, dist: number){
         return 
     }
 
     //% block="%op目标物体"
     //% shim=Cube::suck
-    //% advanced=true
+    //% group="综合技能"
     export function suck(op:Sucker_Operation){
         return 
     }
