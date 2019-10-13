@@ -3,7 +3,8 @@
     "version": "0.0.22",
     "description": "library for Infinite Cube #beta",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "MUVisionSensor": "github:mu-opensource/pxt-muvisionsensor3#1.1.9"
     },
     "files": [
         "README.md",
