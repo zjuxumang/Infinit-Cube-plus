@@ -29,7 +29,7 @@ namespace Cube {
     void wait_for_cmd_finish(){
         uint8_t is_finish=1;
         while(1){
-            wait_ms(100);
+            wait_ms(500);
             if(i2c->I2CRead(0x80,&is_finish)!=0)
                 continue;
             else
@@ -271,25 +271,8 @@ namespace Cube {
     void suck(int op){
         if(op==0)
         {
-            int pitch0 = Get_Imu(2);
-            while(pitch0==0xffee)
-            {
-                pitch0 = Get_Imu(2);
-                wait_ms(50);
-            }
-            Motor(3,2,255);//吸盘下降
-            wait_ms(50);
-            while(Get_Imu(2)-pitch0>-2)
-            {
-                wait_ms(50);
-            }
-            Motor(3,0,255);
-            wait_ms(50);
             i2c->I2CWrite(0x55,0,0);
-            wait_ms(200);
-            Motor(3,1,255);
-            wait_ms(800);
-            Motor(3,0,0);
+            wait_for_cmd_finish();
         }    
         else if(op==1)
             release();
