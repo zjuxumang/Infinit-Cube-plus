@@ -136,7 +136,7 @@ namespace Cube {
     //% shim=Cube::Init
     //% block="复位编程盒" advanced=true
     export function Init() {
-        return
+
     }
     //% block="设置引脚模式%id|%mode"
     //% shim=Cube::Set_Pin_Mode
@@ -249,6 +249,41 @@ namespace Cube {
     //% group="综合技能"
     export function suck(op:Sucker_Operation){
         return 
+    }
+    export enum object_color{
+        //% block="蓝色"
+        Blue=1,
+        //% block="黄色"
+        Yellow=2,
+        //% block="无"
+        None=3
+    }
+    //% block="检测到物体颜色为%color"
+    export function Object_Detect(color:object_color):boolean{
+        let yellow = 0
+        let blue = 0
+        let result = 0
+        while (!(Cube.is_arrive_end())) {
+            if (MUVisionSensor.MuVs2GetColorRCGLabel(MUVisionSensor.SENSORS.MU00, 50, 100)) {
+                if (MUVisionSensor.get_color_recognize(MUVisionSensor.SENSORS.MU00, MUVisionSensor.COLOR_TYPE.BLUE)) {
+                    blue += 1
+                } else if (MUVisionSensor.get_color_recognize(MUVisionSensor.SENSORS.MU00, MUVisionSensor.COLOR_TYPE.YELLOW)) {
+                    yellow += 1
+                }
+            }
+            basic.pause(100)
+        }
+        if (blue > yellow) {
+            result = 1
+        } else if (yellow > blue) {
+            result =2 
+        } else {
+            result =3 
+        }
+        if (result==color)
+            return true
+        else
+            return false
     }
 
     //% block="总线舵机控制|ID %ID|角度 %value|时间 %time ms"
