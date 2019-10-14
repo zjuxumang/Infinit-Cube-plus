@@ -1,6 +1,7 @@
 //% color="#359eff" weight=20 icon="\uf1b2"
 namespace Cube {
     let BUS_SERVO_ENABLE=false;
+    let Color_Recognize:number;
     export enum GPIO_ID{
         A0,
         A1,
@@ -133,11 +134,13 @@ namespace Cube {
         //% block="否"
         NonBlocking=0
     }
-    //% shim=Cube::Init
-    //% block="复位编程盒" advanced=true
-    export function Init() {
 
+    //% block="复位编程盒" advanced=true
+    //% shim=Cube::Init
+    export function Init() {
+        return
     }
+
     //% block="设置引脚模式%id|%mode"
     //% shim=Cube::Set_Pin_Mode
     export function Set_Pin_Mode(id:GPIO_ID,mode:Pin_MODE){
@@ -179,6 +182,21 @@ namespace Cube {
     export function Get_Imu(dir:IMU_AXIS){
         return 0
     }
+
+    //% block="初始化视觉模块"
+    //% group="综合技能"
+    export function Init_MU(){
+        serial.redirect(
+        SerialPin.P8,
+        SerialPin.P12,
+        BaudRate.BaudRate9600
+        )
+        basic.pause(100)
+        MUVisionSensor.begin(MUVisionSensor.SENSORS.MU00, MUVisionSensor.PORT.Serial)
+        MUVisionSensor.VisionBegin(MUVisionSensor.SENSORS.MU00, MUVisionSensor.ENABLES.enable, MUVisionSensor.VISION_TYPE.VISION_COLOR_RECOGNITION)
+        MUVisionSensor.set_WB(MUVisionSensor.SENSORS.MU00, MUVisionSensor.WBMODE.WB_LOCK)
+    }
+
     //% block="自动标定循线传感器"
     //% shim=Cube::Init_sensor 
     //% group="综合技能"
@@ -256,13 +274,14 @@ namespace Cube {
         //% block="黄色"
         Yellow=2,
         //% block="无"
-        None=3
+        None=0
     }
-    //% block="检测到物体颜色为%color"
-    export function Object_Detect(color:object_color):boolean{
+    //% block="启动颜色检测"
+    //% group="综合技能"
+    export function Object_Detect(){
         let yellow = 0
         let blue = 0
-        let result = 0
+        Color_Recognize=0
         while (!(Cube.is_arrive_end())) {
             if (MUVisionSensor.MuVs2GetColorRCGLabel(MUVisionSensor.SENSORS.MU00, 50, 100)) {
                 if (MUVisionSensor.get_color_recognize(MUVisionSensor.SENSORS.MU00, MUVisionSensor.COLOR_TYPE.BLUE)) {
@@ -271,21 +290,25 @@ namespace Cube {
                     yellow += 1
                 }
             }
-            basic.pause(100)
+            basic.pause(50)
         }
         if (blue > yellow) {
-            result = 1
+            Color_Recognize=1
         } else if (yellow > blue) {
-            result =2 
+            Color_Recognize=2
         } else {
-            result =3 
+            Color_Recognize=0
         }
-        if (result==color)
+    }
+    //% block="检测到物体颜色为%color"
+    //% group="综合技能"
+    export function Get_Color(color:object_color){
+        if(Color_Recognize==color)
             return true
         else
             return false
     }
-
+    
     //% block="总线舵机控制|ID %ID|角度 %value|时间 %time ms"
     //% time.defl=500 time.min=0
     //% value.min=0 value.max=180
