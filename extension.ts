@@ -204,12 +204,14 @@ namespace Cube {
         basic.pause(3000)
         return 
     }
-    //% block="循线到%end_type||是否等待到达%mode"
+
+    //% block="循线到%end_type||是否等待到达%mode速度%speed"
     //% shim=Cube::follow_line 
     //% group="综合技能"
     //% expandableArgumentMode="toggle"
     //% mode.defl=1
-    export function follow_line(end_type:End_TYPE,mode?:Is_Wait){
+    //% speed.defl=100 speed.max=100 speed.min=70
+    export function follow_line(end_type:End_TYPE,mode?:Is_Wait,speed?:number){
         return 
     }
 

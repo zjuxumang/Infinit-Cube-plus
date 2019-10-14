@@ -49,7 +49,7 @@
   "Cube.Sucker_Operation.Release|block": "释放",
   "Cube.break_follow|block": "停止循线",
   "Cube.bus_Servo|block": "总线舵机控制|ID %ID|角度 %value|时间 %time ms",
-  "Cube.follow_line|block": "循线到%end_type||是否等待到达%mode",
+  "Cube.follow_line|block": "循线到%end_type||是否等待到达%mode速度%speed",
   "Cube.go_distance|block": "%dir|距离%dist|mm",
   "Cube.init_port|block": "初始化%port|为%sensor",
   "Cube.is_arrive_end|block": "循线完成",
