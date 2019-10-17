@@ -195,6 +195,8 @@ namespace Cube {
         MUVisionSensor.begin(MUVisionSensor.SENSORS.MU00, MUVisionSensor.PORT.Serial)
         MUVisionSensor.VisionBegin(MUVisionSensor.SENSORS.MU00, MUVisionSensor.ENABLES.enable, MUVisionSensor.VISION_TYPE.VISION_COLOR_RECOGNITION)
         MUVisionSensor.set_WB(MUVisionSensor.SENSORS.MU00, MUVisionSensor.WBMODE.WB_LOCK)
+        music.playTone(523, music.beat(BeatFraction.Whole))
+        music.playTone(784, music.beat(BeatFraction.Whole))
     }
 
     //% block="自动标定循线传感器"
@@ -275,6 +277,10 @@ namespace Cube {
         Blue=1,
         //% block="黄色"
         Yellow=2,
+        //% block="红色"
+        Red=3,
+        //% block="绿色"
+        Green=4,
         //% block="无"
         None=0
     }
@@ -283,21 +289,30 @@ namespace Cube {
     export function Object_Detect(){
         let yellow = 0
         let blue = 0
+        let red = 0
+        let green = 0
         Color_Recognize=0
         while (!(Cube.is_arrive_end())) {
             if (MUVisionSensor.MuVs2GetColorRCGLabel(MUVisionSensor.SENSORS.MU00, 50, 100)) {
-                if (MUVisionSensor.get_color_recognize(MUVisionSensor.SENSORS.MU00, MUVisionSensor.COLOR_TYPE.BLUE)) {
-                    blue += 1
-                } else if (MUVisionSensor.get_color_recognize(MUVisionSensor.SENSORS.MU00, MUVisionSensor.COLOR_TYPE.YELLOW)) {
-                    yellow += 1
+                let color = MUVisionSensor.get_color_value(MUVisionSensor.SENSORS.MU00, MUVisionSensor.ColorParams.LABLE)
+                switch(color){
+                    case MUVisionSensor.COLOR_TYPE.BLUE:blue++;break;
+                    case MUVisionSensor.COLOR_TYPE.YELLOW:yellow++;break;
+                    case MUVisionSensor.COLOR_TYPE.RED:red++;break;
+                    case MUVisionSensor.COLOR_TYPE.GREEN:green++;break;
                 }
             }
             basic.pause(50)
         }
-        if (blue > yellow) {
+        
+        if (blue > yellow&&blue>red&&blue>green) {
             Color_Recognize=1
-        } else if (yellow > blue) {
+        } else if (yellow > blue&&yellow>red&&yellow>green) {
             Color_Recognize=2
+        } else if (red > blue&&red>yellow&&red>green) {
+            Color_Recognize=3
+        } else if (green > blue&&green>red&&green>yellow) {
+            Color_Recognize=4
         } else {
             Color_Recognize=0
         }

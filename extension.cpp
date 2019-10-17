@@ -247,6 +247,8 @@ namespace Cube {
     
     //%
     void turn_to_angle(int angle){
+        if(angle==0)
+            angle=1;
         i2c->I2CWrite(0x57,(uint8_t)(angle>>8),(uint8_t)(angle&0x00ff));
         wait_for_cmd_finish();
     }
