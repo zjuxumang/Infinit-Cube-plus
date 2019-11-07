@@ -240,6 +240,13 @@ namespace Cube {
     }
 
     //%
+    void follow_line_n(int count,int speed,int is_wait){
+        i2c->I2CWrite(0x60,count,speed);
+        if(is_wait)
+            wait_for_cmd_finish();
+    }
+
+    //%
     void turn_angle(int angle){
         i2c->I2CWrite(0x52,(uint8_t)(angle>>8),(uint8_t)(angle&0x00ff));
         wait_for_cmd_finish();
@@ -254,10 +261,11 @@ namespace Cube {
     }
 
     //%
-    void go_distance(int dir, int dist){
+    void go_distance(int dir, int dist, int speed){
         if(dir==1)
             dist=-dist;
         i2c->I2CWrite(0x53,(uint8_t)(dist>>8),(uint8_t)(dist&0x00ff));
+        i2c->I2CWrite2Byte((uint8_t)(speed>>8),(uint8_t)(speed&0x00ff));
         wait_for_cmd_finish();
     }
 
